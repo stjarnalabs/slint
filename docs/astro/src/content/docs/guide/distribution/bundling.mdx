@@ -1,0 +1,93 @@
+---
+<!-- Copyright © SixtyFPS GmbH <info@slint.dev> ; SPDX-License-Identifier: MIT -->
+title: Bundling
+description: Bundling your app.
+---
+
+
+import {TabItem, Tabs} from '@astrojs/starlight/components';
+
+## Configuration
+
+Start by defining the platform independent configuration for your app.
+
+```toml
+# Packager.toml
+
+# Name of the project (must be the same as `Cargo.toml` or the binary name
+name = "memory_game"
+# Name of the app
+product-name = "Memorizer"
+# The application identifier in reverse domain name notation.
+identifier = "dev.slint.Memorizer"
+# Application version
+version = "0.1.0"
+# Directory to output bundle artifacts
+out-dir = "./dist"
+# Binaries to be included in the application bundle.
+binaries = [{ main = true, path = "memory_game" }]
+# Optional command to run before packaging the app. This should ideally be a script that compiles your application.
+before-packaging-command = "./build.sh"
+# Optional list of icon files to be included in the bundle
+icons = [
+    "icons/32x32.png",
+    "icons/128x128.png",
+    "icons/128x128@2x.png",
+    "icons/icon.icns",
+    "icons/icon.ico"
+]
+# The app’s category.
+category = "Photography"
+```
+
+Next, we define platform specific options necessary for bundling the app properly.
+
+<Tabs syncKey="dev-platform">
+    <TabItem label="Windows" icon="seti:windows">
+    </TabItem>
+    <TabItem label="macOS" icon="apple">
+        ```toml
+        # Packager.toml
+        # ...
+
+        [macos]
+        formats = ["app"]
+        target-triple = "universal-apple-darwin"
+        entitlements = "./Entitlements.plist"
+        info-plist-path = "./Info.plist"
+        minimum-system-version = "10.13"
+        ```
+
+        We also need to create the `Entitlements.plist` and `Info.plist` files for MacOS.
+
+        ```plist
+        <!-- Entitlements.plist -->
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+            <dict>
+                <key>com.apple.security.app-sandbox</key>
+                <true/>
+            </dict>
+        </plist>
+        ```
+
+        If you're planning to distribute your app via the Mac App Store, then sandbox is required to be enabled. You can
+        skip it otherwise.
+
+        ```plist
+        <!-- Info.plist -->
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+            <dict>
+                <key>ITSAppUsesNonExemptEncryption</key>
+                <false/>
+            </dict>
+        </plist>
+        ```
+    </TabItem>
+    <TabItem label="Linux" icon="linux">
+
+    </TabItem>
+</Tabs>

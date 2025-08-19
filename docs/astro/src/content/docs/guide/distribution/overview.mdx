@@ -1,0 +1,37 @@
+---
+<!-- Copyright © SixtyFPS GmbH <info@slint.dev> ; SPDX-License-Identifier: MIT -->
+title: Distribution
+description: Preparing your slint app for distribution.
+---
+
+## Introduction
+
+Slint doesn't provide internal tooling to package apps for distribution to various platforms at the moment. This, however,
+can be achieved through 3rd-party tools by following the platform-specific guides provided here.
+
+We will use the `cargo-packager` project to facilitate packing up the correct files for each platform and creating the
+distribution artifacts. `cargo-packager` also allows you to code-sign the app which is required for distribution on most
+platforms.
+
+While this is a Rust project, it can be used to package apps built using any language and tooling combinations, as long
+as the app can be compiled into a binary. So, the following guide will work irrespective of which Slint language integration
+your project uses.
+
+In this guide, we'll be working with the memory game app that the tutorial provides.
+
+## Getting Started
+
+Start by installing the `cargo-packager` tool:
+
+```shell
+cargo install cargo-packager --locked
+```
+
+Next, create a `Packager.toml` file at the root of your project.
+
+```shell
+touch Packager.toml
+```
+
+This file will contain all the configurations needed by `cargo-packager` to package your app for each platform you want to
+support.

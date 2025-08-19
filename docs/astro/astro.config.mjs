@@ -178,6 +178,17 @@ export default defineConfig({
                                     "guide/backends-and-renderers/backend_winit",
                                 ],
                             },
+                            {
+                                label: "Distribution",
+                                collapsed: true,
+                                items: [
+                                    {
+                                        label: "Overview",
+                                        slug: "guide/distribution/overview",
+                                    },
+                                    "guide/distribution/bundling",
+                                ],
+                            },
                         ],
                     },
                     {
